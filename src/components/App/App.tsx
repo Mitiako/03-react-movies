@@ -7,6 +7,7 @@ import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import MovieModal from '../MovieModal/MovieModal';
 import css from './App.module.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function App() {
   // Зберігаємо список знайдених фільмів
@@ -29,16 +30,21 @@ export default function App() {
     setIsLoading(true);
 
     try {
-      // Отримуємо фільми з TMDB API.
-      const fetchedMovies = await fetchMovies(query);
-      setMovies(fetchedMovies);
-    } catch {
-      // Показуємо помилку якщо запит не вдався.
-      setIsError(true);
-    } finally {
-      // Лоадер має завжди показуватися після завершення запиту.
-      setIsLoading(false);
-    }
+  // Отримуємо фільми з TMDB API
+  const fetchedMovies = await fetchMovies(query);
+  setMovies(fetchedMovies);
+
+  // Якщо фільми не знайдені — повідомляємо користувача
+  if (fetchedMovies.length === 0) {
+    toast.error('No movies found for your request. Try a different query.');
+  }
+} catch {
+  // Показуємо помилку якщо запит не вдався
+  setIsError(true);
+} finally {
+  // Лоадер має завжди вимикатися після завершення запиту
+  setIsLoading(false);
+}
   }
 
   // Відкриваємо модалку з обраним фільмом.
@@ -53,7 +59,8 @@ export default function App() {
 
   // Збираємо всі компоненти разом — головна сцена нашого кінотеатру.
   return (
-    <div className={css.app}>
+      <div className={ css.app }>
+        <Toaster position="top-right" />
       <SearchBar onSubmit={handleSearch} />
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
