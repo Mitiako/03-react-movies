@@ -32,10 +32,12 @@ export default function App() {
     try {
   // Отримуємо фільми з TMDB API
   const fetchedMovies = await fetchMovies(query);
-  setMovies(fetchedMovies);
+        setMovies(fetchedMovies);
+//   console.log('fetchMovies:', fetchedMovies.length);
 
   // Якщо фільми не знайдені — повідомляємо користувача
-  if (fetchedMovies.length === 0) {
+        if (fetchedMovies.length === 0) {
+    // console.log('No movies found!');
     toast.error('No movies found for your request. Try a different query.');
   }
 } catch {

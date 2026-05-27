@@ -1,4 +1,4 @@
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import css from './SearchBar.module.css';
 
 // Описуємо пропси компонента SearchBar
@@ -50,7 +50,6 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
           </div>
       
       {/* Контейнер для сповіщень */}
-      <Toaster position="top-right" />
     </header>
   );
 }
